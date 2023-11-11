@@ -1,0 +1,2 @@
+# edda
+techsolomon guide
