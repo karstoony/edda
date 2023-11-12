@@ -1,0 +1,21 @@
+body {
+    background-color: #ffffff; /* White background */
+    color: #000000; /* Black text */
+    font-family: 'Arial', sans-serif; /* Choose a font style */
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+h1 {
+    color: #000000; /* Black heading text */
+}
+
+p {
+    color: #000000; /* Black paragraph text */
+}
