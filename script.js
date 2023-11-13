@@ -1,8 +1,10 @@
 const boardSize = 3; // Size of each small tic-tac-toe board
-const totalBoards = 3; // Total number of small boards
+const totalBoards = 9; // Total number of small boards
 
 let currentPlayer = 'X';
 let gameBoard = initializeBoard();
+let currentBoardIndex = null;
+let previousBoardIndex = null;
 
 function initializeBoard() {
     const board = [];
@@ -36,12 +38,75 @@ function renderBoard() {
     }
 }
 
+let lastMovePosition = null;
+let lastMoveBoardIndex = null;
+
 function handleCellClick(boardIndex, cellIndex) {
-    if (gameBoard[boardIndex][cellIndex] === '') {
+    if (canPlayInBoard(boardIndex, cellIndex) && gameBoard[boardIndex][cellIndex] === '') {
         gameBoard[boardIndex][cellIndex] = currentPlayer;
+        lastMovePosition = cellIndex;
+        lastMoveBoardIndex = cellIndex;
+        previousBoardIndex = currentBoardIndex;
+        currentBoardIndex = lastMovePosition; // Set to the next small board based on the last move
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+
+        if (checkWin(boardIndex)) {
+            updateBigBoard(boardIndex);
+        }
+
         renderBoard();
-        // Add your game logic for checking a winner or switching boards here
+    }
+}
+
+function canPlayInBoard(boardIndex, cellIndex) {
+    // Allow playing in any spot within the newly selected small board
+    return (
+        lastMoveBoardIndex === null ||
+        (lastMoveBoardIndex !== null && boardIndex === lastMovePosition)
+    );
+}
+
+
+
+
+function checkWin(boardIndex) {
+    const row = Math.floor(boardIndex / boardSize);
+    const col = boardIndex % boardSize;
+
+    // Check row, column, and diagonal for a win
+    if (
+        checkLine(gameBoard[boardIndex], 0, 1, 2) ||
+        checkLine(gameBoard[boardIndex], 3, 4, 5) ||
+        checkLine(gameBoard[boardIndex], 6, 7, 8) ||
+        checkLine(gameBoard[boardIndex], 0, 3, 6) ||
+        checkLine(gameBoard[boardIndex], 1, 4, 7) ||
+        checkLine(gameBoard[boardIndex], 2, 5, 8) ||
+        checkLine(gameBoard[boardIndex], 0, 4, 8) ||
+        checkLine(gameBoard[boardIndex], 2, 4, 6)
+    ) {
+        return true;
+    }
+
+    return false;
+}
+
+function checkLine(board, a, b, c) {
+    return board[a] !== '' && board[a] === board[b] && board[a] === board[c];
+}
+
+function updateBigBoard(boardIndex) {
+    const winnerSymbol = currentPlayer === 'X' ? 'O' : 'X';
+    gameBoard[boardIndex] = gameBoard[boardIndex].map(() => winnerSymbol);
+}
+
+function undoTurn() {
+    if (previousBoardIndex !== null) {
+        const lastMoveIndex = gameBoard[previousBoardIndex].findIndex(cell => cell !== '');
+        gameBoard[previousBoardIndex][lastMoveIndex] = '';
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        currentBoardIndex = previousBoardIndex;
+        previousBoardIndex = null;
+        renderBoard();
     }
 }
 
