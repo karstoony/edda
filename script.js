@@ -22,6 +22,10 @@ function renderBoard() {
     const container = document.getElementById('super-tic-tac-toe');
     container.innerHTML = '';
 
+    // Update player turn info
+    const playerTurnInfo = document.getElementById('player-turn');
+    playerTurnInfo.textContent = currentPlayer;
+
     for (let i = 0; i < totalBoards; i++) {
         const smallBoard = document.createElement('div');
         smallBoard.classList.add('small-board');
