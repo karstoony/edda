@@ -59,12 +59,18 @@ function handleCellClick(boardIndex, cellIndex) {
 }
 
 function canPlayInBoard(boardIndex, cellIndex) {
+    // If the next board is already full, allow playing in any available small board
+    if (lastMoveBoardIndex !== null && gameBoard[lastMoveBoardIndex].every(cell => cell !== '')) {
+        return true;
+    }
+
     // Allow playing in any spot within the newly selected small board
     return (
         lastMoveBoardIndex === null ||
         (lastMoveBoardIndex !== null && boardIndex === lastMovePosition)
     );
 }
+
 
 
 
