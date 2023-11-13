@@ -6,6 +6,10 @@ let gameBoard = initializeBoard();
 let currentBoardIndex = null;
 let previousBoardIndex = null;
 
+// Add these variables
+let lastMovePosition = null;
+let lastMoveBoardIndex = null;
+
 function initializeBoard() {
     const board = [];
     for (let i = 0; i < totalBoards; i++) {
@@ -18,10 +22,20 @@ function initializeBoard() {
     return board;
 }
 
+// Add these functions
+function updateTurnInfo() {
+    const playerTurnElement = document.getElementById('player-turn');
+    playerTurnElement.textContent = currentPlayer;
+}
+
+function updateWinnerInfo(winner) {
+    const winnerElement = document.getElementById('winner');
+    winnerElement.textContent = winner;
+}
+
 function renderBoard() {
     const container = document.getElementById('super-tic-tac-toe');
     container.innerHTML = '';
-
     // Update player turn info
     const playerTurnInfo = document.getElementById('player-turn');
     playerTurnInfo.textContent = currentPlayer;
@@ -52,12 +66,6 @@ function renderBoard() {
     }
 }
 
-
-
-
-let lastMovePosition = null;
-let lastMoveBoardIndex = null;
-
 function handleCellClick(boardIndex, cellIndex) {
     if (canPlayInBoard(boardIndex, cellIndex) && gameBoard[boardIndex][cellIndex] === '') {
         gameBoard[boardIndex][cellIndex] = currentPlayer;
@@ -69,6 +77,8 @@ function handleCellClick(boardIndex, cellIndex) {
 
         if (checkWin(boardIndex)) {
             updateBigBoard(boardIndex);
+            // Update winner information
+            updateWinnerInfo(currentPlayer === 'X' ? 'O' : 'X');
         }
 
         renderBoard();
@@ -87,10 +97,6 @@ function canPlayInBoard(boardIndex, cellIndex) {
         (lastMoveBoardIndex !== null && boardIndex === lastMovePosition)
     );
 }
-
-
-
-
 
 function checkWin(boardIndex) {
     const row = Math.floor(boardIndex / boardSize);
