@@ -26,6 +26,16 @@ function renderBoard() {
         const smallBoard = document.createElement('div');
         smallBoard.classList.add('small-board');
 
+        // Highlight the next board
+        if (lastMoveBoardIndex !== null && i === lastMovePosition) {
+            smallBoard.classList.add('highlight-next');
+        }
+
+        // Highlight all available boards
+        if (lastMoveBoardIndex !== null && gameBoard[lastMoveBoardIndex].every(cell => cell !== '') && gameBoard[i].some(cell => cell === '')) {
+            smallBoard.classList.add('highlight-available');
+        }
+
         for (let j = 0; j < boardSize * boardSize; j++) {
             const cell = document.createElement('div');
             cell.classList.add('cell');
@@ -37,6 +47,9 @@ function renderBoard() {
         container.appendChild(smallBoard);
     }
 }
+
+
+
 
 let lastMovePosition = null;
 let lastMoveBoardIndex = null;
