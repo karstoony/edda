@@ -30,13 +30,22 @@ function renderBoard() {
         const smallBoard = document.createElement('div');
         smallBoard.classList.add('small-board');
 
-        // Highlight the next board
-        if (lastMoveBoardIndex !== null && i === lastMovePosition) {
+        // Highlight the next board if it's not full
+        if (
+            lastMoveBoardIndex !== null &&
+            i === lastMovePosition &&
+            !gameBoard[i].every(cell => cell !== '')
+        ) {
             smallBoard.classList.add('highlight-next');
         }
 
-        // Highlight all available boards
-        if (lastMoveBoardIndex !== null && gameBoard[lastMoveBoardIndex].every(cell => cell !== '') && gameBoard[i].some(cell => cell === '')) {
+        // Highlight all available boards that are not completely full
+        if (
+            lastMoveBoardIndex !== null &&
+            gameBoard[lastMoveBoardIndex].every(cell => cell !== '') &&
+            gameBoard[i].some(cell => cell === '') &&
+            !gameBoard[i].every(cell => cell !== '')
+        ) {
             smallBoard.classList.add('highlight-available');
         }
 
@@ -51,6 +60,7 @@ function renderBoard() {
         container.appendChild(smallBoard);
     }
 }
+
 
 
 
