@@ -18,13 +18,11 @@ function initializeBoard() {
     return board;
 }
 
+let isFirstMove = true; 
+
 function renderBoard() {
     const container = document.getElementById('super-tic-tac-toe');
     container.innerHTML = '';
-
-    // Update player turn info
-    const playerTurnInfo = document.getElementById('player-turn');
-    playerTurnInfo.textContent = currentPlayer;
 
     for (let i = 0; i < totalBoards; i++) {
         const smallBoard = document.createElement('div');
@@ -59,11 +57,15 @@ function renderBoard() {
 
         container.appendChild(smallBoard);
     }
+
+    const title = document.getElementsByClassName('title')[0];
+    if (isFirstMove) {
+        title.textContent = 'Super Tic Tac Toe';
+    } else {
+        title.textContent = `Turn: ${currentPlayer}`;
+    }
+    isFirstMove = false; // Set isFirstMove to false after the first move
 }
-
-
-
-
 
 let lastMovePosition = null;
 let lastMoveBoardIndex = null;
@@ -77,6 +79,7 @@ function handleCellClick(boardIndex, cellIndex) {
         currentBoardIndex = lastMovePosition; // Set to the next small board based on the last move
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
 
+        
         if (checkWin(boardIndex)) {
             updateBigBoard(boardIndex);
         }
@@ -130,17 +133,6 @@ function checkLine(board, a, b, c) {
 function updateBigBoard(boardIndex) {
     const winnerSymbol = currentPlayer === 'X' ? 'O' : 'X';
     gameBoard[boardIndex] = gameBoard[boardIndex].map(() => winnerSymbol);
-}
-
-function undoTurn() {
-    if (previousBoardIndex !== null) {
-        const lastMoveIndex = gameBoard[previousBoardIndex].findIndex(cell => cell !== '');
-        gameBoard[previousBoardIndex][lastMoveIndex] = '';
-        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-        currentBoardIndex = previousBoardIndex;
-        previousBoardIndex = null;
-        renderBoard();
-    }
 }
 
 renderBoard();

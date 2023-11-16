@@ -50,29 +50,17 @@ body {
 }
 
 /* Add this style to highlight the next board */
+/* Add this style to highlight the next board if it's not full */
 .highlight-next {
-    border: 2px solid #00FF00; /* Soft green outline */
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.9);
 }
 
 /* Add this style to highlight all available boards */
 .highlight-available {
-    border: 2px solid #00FF00; /* Soft green outline */
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.9);
 }
 
 /* Add this style to highlight available boards that are not completely full */
-.highlight-available:not(.full) {
-    border: 2px solid #00FF00; /* Soft green outline */
-}
-#player-turn-info {
-    margin-top: 20px;
-    margin-bottom: 0px;
-    font-size: 24px;
-}
-  
-  #player-turn {
-    font-size: 30px;
-    font-weight: bold;
-  }
 
 .modal {
     display: none;
@@ -93,9 +81,17 @@ body {
     text-align: center;
 }
 
-/* ... (existing styles) ... */
 body {
     background-image: url('smile.jpg');
     background-size: cover; /* Adjust the background-size property to cover or contain the background */
     background-repeat: no-repeat;
 }
+
+@keyframes shake {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-5px, 5px); }
+    50% { transform: translate(5px, -5px); }
+    75% { transform: translate(-5px, 5px); }
+    100% { transform: translate(0, 0); }
+  }
+  
